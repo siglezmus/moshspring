@@ -1,0 +1,9 @@
+spring:
+  application:
+    name:store
+
+stripe:
+  apiUrl: qwe
+  enabled: true
+  timeout: 1000
+  supported-currencies=USD,EUR,GBP:
