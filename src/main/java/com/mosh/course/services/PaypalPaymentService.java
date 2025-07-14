@@ -3,7 +3,7 @@ package com.mosh.course.services;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-@Service("Paypal")
+//@Service("Paypal")
 public class PaypalPaymentService implements PaymentService{
 
     @Override

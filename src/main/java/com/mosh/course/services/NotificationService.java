@@ -1,5 +1,5 @@
 package com.mosh.course.services;
 
 public interface NotificationService {
-    void send(String message);
+    void send(String message, String destination);
 }

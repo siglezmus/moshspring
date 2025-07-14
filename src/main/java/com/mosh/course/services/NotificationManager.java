@@ -8,11 +8,11 @@ public class NotificationManager {
 
     private final NotificationService notificationService;
 
-    public NotificationManager(@Qualifier("SMS") NotificationService notificationService) {
+    public NotificationManager(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
 
-    public void sendNotification(String message){
-        notificationService.send(message);
+    public void sendNotification(String message, String destination){
+        notificationService.send(message, destination);
     }
 }
