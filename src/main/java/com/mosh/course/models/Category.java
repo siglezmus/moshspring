@@ -25,6 +25,10 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    public Category(short id){
+        this.id = id;
+    }
+
     @OneToMany(mappedBy = "category")
     @Builder.Default
     Set<Product> products = new HashSet<>();

@@ -28,12 +28,23 @@ public class Product {
     @Column(name = "price")
     private Double price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
     @ToString.Exclude
     private Category category;
 
     @ManyToMany(mappedBy = "wishlist")
     @ToString.Exclude
+    @Builder.Default
     private Set<User> users = new HashSet<>();
+
+    public void addCategory(Category categoryArg){
+        category = categoryArg;
+        categoryArg.addProduct(this);
+    }
+
+    public void removeCategory(Category categoryArg){
+        category = null;
+        categoryArg.removeProduct(this);
+    }
 }

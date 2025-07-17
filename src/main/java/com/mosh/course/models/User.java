@@ -15,7 +15,6 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +30,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     @Builder.Default
     private List<Address> addresses = new ArrayList<>();
 
@@ -63,11 +62,11 @@ public class User {
         tag.getUsers().remove(this);
     }
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Profile profile;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @Builder.Default
     @JoinTable(name = "wishlist",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -82,5 +81,13 @@ public class User {
     public void removeProductFromWishList(Product product){
         wishlist.remove(product);
         product.getUsers().remove(this);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "name = " + name + ", " +
+                "email = " + email + ")";
     }
 }
