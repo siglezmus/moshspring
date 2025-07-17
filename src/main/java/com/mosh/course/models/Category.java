@@ -3,43 +3,32 @@ package com.mosh.course.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-@Entity
-@Table(name = "categories")
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Entity
+@Table(name = "categories")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Short id;
+    private Byte id;
 
     @Column(name = "name")
     private String name;
 
-    public Category(short id){
+    @OneToMany(mappedBy = "category")
+    private Set<Product> products = new HashSet<>();
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public Category(byte id) {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "category")
-    @Builder.Default
-    Set<Product> products = new HashSet<>();
-
-    public void addProduct(Product product){
-        products.add(product);
-        product.setCategory(this);
-    }
-
-    public void removeProduct(Product product){
-        products.remove(product);
-        product.setCategory(null);
-    }
 }

@@ -3,15 +3,13 @@ package com.mosh.course.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
-@Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@ToString
+@Entity
 @Table(name = "addresses")
 public class Address {
     @Id

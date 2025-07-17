@@ -13,30 +13,5 @@ import java.math.BigDecimal;
 
 @SpringBootApplication
 public class CourseApplication {
-
-	public static void main(String[] args) {
-
-
-		ConfigurableApplicationContext context = SpringApplication.run(CourseApplication.class, args);
-		UserRepository repository = context.getBean(UserRepository.class);
-		var service = context.getBean(UserService.class);
-		AddressService addressService = context.getBean(AddressService.class);
-		ProductCategoryService productCategoryService = context.getBean(ProductCategoryService.class);
-
-		//service.fetchProductsByCriteria();
-		//service.fetchPaginatedProducts(0, 3);
-		//service.fetchSortedProducts();
-		service.fetchProductsBySpec(null, null, null, (short) 1);
-		//service.fetchProductsByCriteria();
-		//service.getProfilesWithLoyalty(2);
-		//service.updateProductPrices();
-		//productCategoryService.deleteProduct();
-		//service.fillWishlist();
-		//productCategoryService.saveNewProductToExistingCategory();
-		//service.deleteRelated();
-		//service.persistRelated();
-		//service.showRelatedEntities();
-		//addressService.showAddressEagerAndLazyLoading();
-	}
-
+	public static void main(String[] args) {}
 }
