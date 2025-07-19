@@ -1,7 +1,13 @@
 package com.mosh.course.repositories;
 
 import com.mosh.course.models.Category;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-public interface CategoryRepository extends CrudRepository<Category, Long> {
+import java.util.Set;
+
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+    @Query("SELECT c.id FROM Category c")
+    Set<Short> findAllCategoryIds();
 }
