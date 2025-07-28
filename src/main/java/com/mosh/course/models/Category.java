@@ -1,5 +1,6 @@
 package com.mosh.course.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,19 +16,20 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Byte id;
+    private Short id;
 
     @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private Set<Product> products = new HashSet<>();
 
     public Category(String name) {
         this.name = name;
     }
 
-    public Category(byte id) {
+    public Category(short id) {
         this.id = id;
     }
 
