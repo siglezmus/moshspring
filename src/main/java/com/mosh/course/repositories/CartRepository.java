@@ -28,8 +28,4 @@ public interface CartRepository extends JpaRepository<Cart, UUID> {
     })
     @Query("SELECT c FROM Cart c WHERE c.id = :id")
     Optional<Cart> findByIdEager(@Param("id") UUID id);
-
-    @Modifying
-    @Query("DELETE FROM CartItem ci WHERE ci.cart.id = :cartId")
-    void deleteAllByCartId(@Param("cartId") UUID cartId);
 }
