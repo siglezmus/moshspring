@@ -17,5 +17,9 @@ public interface UserMapper {
     @Mapping(target = "favoriteProducts", ignore = true)
     User toEntity(RegisterUserDto dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "addresses", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "favoriteProducts", ignore = true)
     void update(UpdateUserRequest request, @MappingTarget User user);
 }

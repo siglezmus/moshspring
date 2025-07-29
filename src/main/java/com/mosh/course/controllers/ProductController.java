@@ -1,28 +1,23 @@
 package com.mosh.course.controllers;
 
 import com.mosh.course.dtos.ProductDto;
-import com.mosh.course.dtos.RegisterUserDto;
-import com.mosh.course.dtos.UpdateUserRequest;
-import com.mosh.course.dtos.UserDto;
 import com.mosh.course.mappers.ProductMapper;
 import com.mosh.course.models.Category;
 import com.mosh.course.models.Product;
-import com.mosh.course.models.User;
 import com.mosh.course.repositories.CategoryRepository;
 import com.mosh.course.repositories.ProductRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/products")
+@Tag(name = "Products")
 public class ProductController {
 
     private final ProductRepository productRepository;

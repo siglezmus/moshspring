@@ -7,7 +7,7 @@ import com.mosh.course.dtos.UserDto;
 import com.mosh.course.mappers.UserMapper;
 import com.mosh.course.models.User;
 import com.mosh.course.repositories.UserRepository;
-import jakarta.transaction.Transactional;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -21,6 +21,7 @@ import java.util.Set;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
+@Tag(name = "Users")
 public class UserController {
 
     private final UserRepository userRepository;
