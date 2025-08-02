@@ -1,21 +1,23 @@
 package com.mosh.course.controllers;
 
-import com.mosh.course.dtos.ChangePasswordRequest;
-import com.mosh.course.dtos.RegisterUserDto;
-import com.mosh.course.dtos.UpdateUserRequest;
-import com.mosh.course.dtos.UserDto;
+import com.mosh.course.dtos.*;
 import com.mosh.course.mappers.UserMapper;
 import com.mosh.course.models.User;
 import com.mosh.course.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -26,7 +28,7 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers(
@@ -52,10 +54,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(
-            @RequestBody RegisterUserDto request,
+    public ResponseEntity<?> registerUser(
+            @Valid @RequestBody RegisterUserDto request,
             UriComponentsBuilder uriBuilder){
+        if (userRepository.existsByEmail(request.getEmail())){
+            return ResponseEntity.badRequest().body(Map.of("email", "Email is already used"));
+        }
         User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         var dto = userMapper.toDto(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(dto.getId()).toUri();
@@ -91,4 +97,5 @@ public class UserController {
             userRepository.save(user);
             return ResponseEntity.noContent().build();
     }
+
 }
