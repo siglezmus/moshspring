@@ -1,68 +1,58 @@
 package com.mosh.course.services;
 
+import com.mosh.course.config.JwtConfig;
+import com.mosh.course.models.Role;
 import com.mosh.course.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
+@AllArgsConstructor
 public class JwtService {
 
-    @Value("${spring.jwt.secret}")
-    private String secret;
+    private final JwtConfig jwtConfig;
 
-    public String generateAccessToken(User user){
-        final long tokenExpiration = 300; // 5m
-        return getToken(user, tokenExpiration);
+    public Jwt generateAccessToken(User user){
+        return generateToken(user, jwtConfig.getAccessTokenExpiration());
     }
 
-    public String generateRefreshToken(User user){
-        final long tokenExpiration = 604800; // 7d
-        return getToken(user, tokenExpiration);
+    public Jwt generateRefreshToken(User user){
+        return generateToken(user, jwtConfig.getRefreshTokenExpiration());
     }
 
-    private String getToken(User user, long tokenExpiration) {
-        return Jwts.builder()
-                .subject(String.valueOf(user.getId()))
-                .claim("email", user.getEmail())
-                .claim("name", user.getName())
+    private Jwt generateToken(User user, long tokenExpiration) {
+        var claims = Jwts.claims()
+                .subject(user.getId().toString())
+                .add("email", user.getEmail())
+                .add("name", user.getName())
+                .add("role", user.getRole())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
-                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
-                .compact();
-    }
+                .build();
 
-    public boolean validateToken(String token){
-
-        try{
-            Claims claims = getClaims(token);
-            return claims.getExpiration().after(new Date());
-        }
-        catch (JwtException ex){
-            return false;
-        }
-
+        return new Jwt(claims, jwtConfig.getSecretKey());
     }
 
     private Claims getClaims(String token) {
         return Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                .verifyWith(jwtConfig.getSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
     }
 
-    public Long getIdFromToken(String token){
-        return Long.valueOf(getClaims(token).getSubject());
-    }
-
-    public String getEmailFromToken(String token){
-        return getClaims(token).get("email", String.class);
+    public Jwt parseToken(String token){
+        try{
+            var claims = getClaims(token);
+            return new Jwt(claims, jwtConfig.getSecretKey());
+        } catch (JwtException e){
+            return null;
+        }
     }
 
 }

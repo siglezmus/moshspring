@@ -2,6 +2,7 @@ package com.mosh.course.controllers;
 
 import com.mosh.course.dtos.*;
 import com.mosh.course.mappers.UserMapper;
+import com.mosh.course.models.Role;
 import com.mosh.course.models.User;
 import com.mosh.course.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -62,6 +63,7 @@ public class UserController {
         }
         User user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
         var dto = userMapper.toDto(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(dto.getId()).toUri();
@@ -82,7 +84,7 @@ public class UserController {
     }
 
     @PostMapping("/{id}/change-password")
-    public ResponseEntity<Void> changePasswrod(
+    public ResponseEntity<Void> changePassword(
             @PathVariable Long id,
             @RequestBody ChangePasswordRequest request){
 

@@ -1,5 +1,6 @@
 package com.mosh.course.controllers;
 
+import com.mosh.course.config.JwtConfig;
 import com.mosh.course.dtos.AuthorizeUserRequest;
 import com.mosh.course.dtos.JwtResponse;
 import com.mosh.course.dtos.UserDto;
@@ -29,6 +30,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final JwtConfig jwtConfig;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authorizeUser(
@@ -45,13 +47,13 @@ public class AuthController {
                 )
         );
 
-        String accessToken = jwtService.generateAccessToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
+        String accessToken = jwtService.generateAccessToken(user).toString();
+        String refreshToken = jwtService.generateRefreshToken(user).toString();
 
         var cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setPath("/auth/refresh");
-        cookie.setMaxAge(604800);
+        cookie.setMaxAge(jwtConfig.getRefreshTokenExpiration());
         cookie.setSecure(true);
 
         httpServletResponse.addCookie(cookie);
@@ -75,10 +77,17 @@ public class AuthController {
 
     }
 
-    @PostMapping("/validate")
-    public boolean validate(@RequestHeader("Authorization") String authHeader){
-        System.out.println("Validate controller reached");
-        return jwtService.validateToken(authHeader.replace("Bearer ", ""));
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtResponse> refresh(
+            @CookieValue(value = "refreshToken") String refreshToken
+    ) {
+        var jwt = jwtService.parseToken(refreshToken);
+        if (jwt.isExpired())
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        var user = userRepository.findById(jwt.getUserId()).orElseThrow();
+        var accessToken = jwtService.generateAccessToken(user);
+        return ResponseEntity.ok(new JwtResponse(accessToken.toString()));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
