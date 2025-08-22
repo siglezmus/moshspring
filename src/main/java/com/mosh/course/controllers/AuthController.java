@@ -6,6 +6,7 @@ import com.mosh.course.dtos.JwtResponse;
 import com.mosh.course.dtos.UserDto;
 import com.mosh.course.mappers.UserMapper;
 import com.mosh.course.repositories.UserRepository;
+import com.mosh.course.services.AuthService;
 import com.mosh.course.services.JwtService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
@@ -31,6 +32,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final JwtConfig jwtConfig;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authorizeUser(
@@ -63,11 +65,7 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDto> me(){
-
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var id = (Long) authentication.getPrincipal();
-
-        var user = userRepository.findById(id).orElse(null);
+        var user = authService.getCurrentUser();
         if(user == null){
             return ResponseEntity.notFound().build();
         }

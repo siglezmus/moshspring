@@ -4,6 +4,8 @@ import com.mosh.course.dtos.CartDto;
 import com.mosh.course.dtos.CartItemDto;
 import com.mosh.course.models.Cart;
 import com.mosh.course.models.CartItem;
+import com.mosh.course.models.Order;
+import com.mosh.course.models.OrderItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -18,5 +20,6 @@ public interface CartMapper {
 
     @Mapping(target = "totalPrice", expression = "java(cartItem.getTotalPrice())")
     CartItemDto cartItemToDto(CartItem cartItem);
+
 
 }
