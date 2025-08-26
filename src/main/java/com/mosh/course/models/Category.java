@@ -1,6 +1,7 @@
 package com.mosh.course.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mosh.course.products.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
