@@ -1,6 +1,5 @@
 package com.mosh.course.auth;
 
-import com.mosh.course.auth.filters.JwtAuthenticationFilter;
 import com.mosh.course.users.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,5 @@
 package com.mosh.course.products;
 
-import com.mosh.course.models.Category;
 import jakarta.persistence.*;
 import lombok.*;
 

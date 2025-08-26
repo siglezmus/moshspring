@@ -1,6 +1,6 @@
 package com.mosh.course.carts;
 
-import com.mosh.course.dtos.*;
+import com.mosh.course.common.ErrorDto;
 import com.mosh.course.products.ProductNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

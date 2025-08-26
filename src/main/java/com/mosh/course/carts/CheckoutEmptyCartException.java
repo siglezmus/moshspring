@@ -1,4 +1,4 @@
-package com.mosh.course.exceptions;
+package com.mosh.course.carts;
 
 public class CheckoutEmptyCartException extends RuntimeException {
 }

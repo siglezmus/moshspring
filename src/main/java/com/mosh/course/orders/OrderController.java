@@ -1,6 +1,6 @@
 package com.mosh.course.orders;
 
-import com.mosh.course.dtos.ErrorDto;
+import com.mosh.course.common.ErrorDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

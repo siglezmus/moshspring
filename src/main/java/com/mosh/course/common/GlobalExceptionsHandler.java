@@ -1,6 +1,5 @@
-package com.mosh.course.controllers;
+package com.mosh.course.common;
 
-import com.mosh.course.dtos.ErrorDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;

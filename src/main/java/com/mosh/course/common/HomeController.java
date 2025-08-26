@@ -1,4 +1,4 @@
-package com.mosh.course.controllers;
+package com.mosh.course.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

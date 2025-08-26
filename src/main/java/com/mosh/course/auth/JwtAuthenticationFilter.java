@@ -1,6 +1,5 @@
-package com.mosh.course.auth.filters;
+package com.mosh.course.auth;
 
-import com.mosh.course.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,8 +1,8 @@
 package com.mosh.course.payments;
 
 import com.mosh.course.carts.CartNotFoundException;
-import com.mosh.course.dtos.ErrorDto;
-import com.mosh.course.exceptions.*;
+import com.mosh.course.carts.CheckoutEmptyCartException;
+import com.mosh.course.common.ErrorDto;
 import com.mosh.course.orders.OrderRepository;
 import com.mosh.course.users.UserNotFoundException;
 import io.swagger.v3.oas.annotations.tags.Tag;

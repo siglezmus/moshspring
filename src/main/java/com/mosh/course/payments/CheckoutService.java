@@ -1,7 +1,7 @@
 package com.mosh.course.payments;
 
 import com.mosh.course.carts.CartNotFoundException;
-import com.mosh.course.exceptions.*;
+import com.mosh.course.carts.CheckoutEmptyCartException;
 import com.mosh.course.orders.Order;
 import com.mosh.course.carts.CartRepository;
 import com.mosh.course.orders.OrderRepository;

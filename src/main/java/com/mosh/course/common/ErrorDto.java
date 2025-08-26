@@ -1,4 +1,4 @@
-package com.mosh.course.dtos;
+package com.mosh.course.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

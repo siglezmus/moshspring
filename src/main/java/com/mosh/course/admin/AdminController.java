@@ -1,4 +1,4 @@
-package com.mosh.course.controllers;
+package com.mosh.course.admin;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
