@@ -1,25 +1,23 @@
-# Use OpenJDK 17 image
-FROM openjdk:17-jdk-slim
+# Use a valid Gradle image to build the app
+FROM gradle:8.3-jdk17 AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Copy Gradle wrapper and project files
-COPY gradlew .
+COPY build.gradle settings.gradle gradle* ./
 COPY gradle ./gradle
-COPY build.gradle .
-COPY settings.gradle .
+
+RUN gradle clean build -x test --no-daemon
+
 COPY src ./src
 
-# Give gradlew execution permissions
-RUN chmod +x ./gradlew
+RUN gradle clean build -x test --no-daemon
 
-# Build the Spring Boot JAR
-RUN ./gradlew bootJar -x test
+FROM eclipse-temurin:17-jdk-jammy
 
-# Expose the port Railway provides
-ENV PORT=8080
+WORKDIR /app
+
+COPY --from=builder /app/build/libs/course-1.0.0.jar ./course.jar
+
 EXPOSE 8080
 
-# Run the Spring Boot app
-CMD ["java", "-jar", "build/libs/course-1.0.0.jar"]
+ENTRYPOINT ["java", "-jar", "course.jar"]

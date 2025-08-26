@@ -22,6 +22,11 @@ java {
 	}
 }
 
+springBoot {
+	mainClass = 'com.mosh.course.CourseApplication'
+}
+
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
