@@ -16,10 +16,6 @@ public class AuthService {
     public User getCurrentUser() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null || !auth.isAuthenticated()) {
-            return null; // user is anonymous or not authenticated
-        }
-
         Object principal = auth.getPrincipal();
 
         if (principal instanceof JwtUserPrincipal jwtPrincipal) {
@@ -32,10 +28,6 @@ public class AuthService {
 
     public Long getCurrentUserId(){
         var auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth == null || !auth.isAuthenticated()) {
-            return null; // user is anonymous or not authenticated
-        }
 
         Object principal = auth.getPrincipal();
 
