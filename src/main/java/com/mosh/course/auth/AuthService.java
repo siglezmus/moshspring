@@ -17,15 +17,7 @@ public class AuthService {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var principal = authentication.getPrincipal(); // this is a String ("1")
 
-        Long id;
-        if (principal instanceof String) {
-            id = Long.valueOf((String) principal);
-        } else if (principal instanceof Long) {
-            id = (Long) principal;
-        } else {
-            throw new BadCredentialsException("Unexpected principal type: " + principal.getClass());
-        }
-
+        Long id = Long.valueOf((String) principal);
         return userRepository.findById(id).orElse(null);
     }
 
