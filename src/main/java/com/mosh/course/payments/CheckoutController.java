@@ -60,7 +60,7 @@ public class CheckoutController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDto("Error creating payment session"));
     }
 
-    @ExceptionHandler(PaymentException.class)
+    @ExceptionHandler(WebHookSerializationException.class)
     public ResponseEntity<ErrorDto> handleWebHookSerializationException(){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDto("Error creating payment session"));
     }
