@@ -13,15 +13,35 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    public User getCurrentUser(){
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var principal = authentication.getPrincipal(); // this is a String ("1")
+    public User getCurrentUser() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
 
-        Long id = Long.valueOf((String) principal);
-        return userRepository.findById(id).orElse(null);
+        if (auth == null || !auth.isAuthenticated()) {
+            return null; // user is anonymous or not authenticated
+        }
+
+        Object principal = auth.getPrincipal();
+
+        if (principal instanceof JwtUserPrincipal jwtPrincipal) {
+            return userRepository.findById(jwtPrincipal.id()).orElse(null);
+        }
+
+        // If principal is anonymous or some other type
+        return null;
     }
 
     public Long getCurrentUserId(){
-        return (Long)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated()) {
+            return null; // user is anonymous or not authenticated
+        }
+
+        Object principal = auth.getPrincipal();
+
+        if (principal instanceof JwtUserPrincipal jwtPrincipal) {
+            return jwtPrincipal.id();
+        }
+        return null;
     }
 }
