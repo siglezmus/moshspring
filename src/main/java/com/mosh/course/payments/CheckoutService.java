@@ -27,13 +27,13 @@ public class CheckoutService {
 
 
     @Transactional
-    public OrderResponse newOrder(UUID carId) throws PaymentException {
+    public OrderResponse newOrder(UUID cartId) throws PaymentException {
         var user = authService.getCurrentUser();
         if (user == null) throw new UserNotFoundException();
 
         Long userId = user.getId();
 
-        var cart = cartRepository.findByIdEager(carId).orElse(null);
+        var cart = cartRepository.findByIdEager(cartId).orElse(null);
         if (cart == null) throw new CartNotFoundException();
         if (cart.getItems().isEmpty()) throw new CheckoutEmptyCartException();
 
